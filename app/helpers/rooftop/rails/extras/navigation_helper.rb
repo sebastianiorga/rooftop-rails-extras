@@ -29,7 +29,7 @@ module Rooftop
           content_tag :li, list_opts do
 
             link = content_tag :a, href: "/#{entity.nested_path}" do
-              entity.title
+              entity.title.html_safe
             end
 
             child_links = ""
