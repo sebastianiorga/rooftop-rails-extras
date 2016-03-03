@@ -21,6 +21,42 @@ module Rooftop
           end
         end
 
+        def menu_for(menu, opts={})
+          default_opts = {
+            class: 'main-navigation-list',
+            current_class: 'is-current'
+          }.merge(opts)
+          content_tag(:ul, class: default_opts[:class]) do
+            items = menu.items.collect do |item|
+              menu_item_for(item, opts)
+            end
+            items.join.html_safe
+          end
+        end
+
+        def menu_item_for(item, opts={})
+          default_opts = {
+            current_class: 'is-current'
+          }.merge(opts)
+          item_path = path_for_menu_item(item)
+          item_class = path_matches?(item_path) ? default_opts[:current_class] : ""
+          content_tag :li, class: item_class do
+            link = content_tag :a, href: item_path do
+              item.title.html_safe
+            end
+            child_links = ""
+            if item.children.present?
+              child_links = content_tag :ul do
+                items = item.children.collect do |child|
+                  menu_item_for(child, default_opts)
+                end
+                items.join.html_safe
+              end
+            end
+            link + child_links
+          end
+        end
+
         private
         def subnavigation_item_for(entity, opts = {})
           list_opts = {}
@@ -49,6 +85,7 @@ module Rooftop
             link + child_links
           end
         end
+
       end
     end
   end
