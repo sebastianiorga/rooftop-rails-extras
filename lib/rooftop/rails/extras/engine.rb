@@ -15,7 +15,7 @@ module Rooftop
           end
         end
 
-        initializer "add_page_methods" do
+       config.to_prepare do
           ::Rails.application.eager_load!
           Rooftop::Page.page_classes.each do |klass|
             klass.send(:include, Rooftop::Rails::Extras::PageRedirect)
