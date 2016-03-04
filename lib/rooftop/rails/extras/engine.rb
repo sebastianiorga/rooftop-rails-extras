@@ -12,6 +12,8 @@ module Rooftop
         initializer "add_helpers" do
           ActiveSupport.on_load(:action_view) do
             include Rooftop::Rails::Extras::NavigationHelper
+            include Rooftop::Rails::Extras::RelatedFieldsHelper
+
           end
         end
 
