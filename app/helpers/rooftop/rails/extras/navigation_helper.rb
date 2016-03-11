@@ -36,7 +36,8 @@ module Rooftop
 
         def menu_item_for(item, opts={})
           default_opts = {
-            current_class: 'is-current'
+            current_class: 'is-current',
+            level: 1
           }.merge(opts)
           item_path = path_for_menu_item(item)
           item_class = path_matches?(item_path) ? default_opts[:current_class] : ""
@@ -46,9 +47,9 @@ module Rooftop
             end
             child_links = ""
             if item.children.present?
-              child_links = content_tag :ul do
+              child_links = content_tag :ul, class: "menu-level-#{default_opts[:level]}" do
                 items = item.children.collect do |child|
-                  menu_item_for(child, default_opts)
+                  menu_item_for(child, default_opts.merge({level: default_opts[:level] + 1}))
                 end
                 items.join.html_safe
               end
@@ -83,6 +84,7 @@ module Rooftop
         private
         def subnavigation_item_for(entity, opts = {})
           list_opts = {}
+          opts.reverse_merge!({level: 1})
           list_opts[:class] = opts[:current_class] if opts[:current].present? && opts[:current].id == entity.id
           # The link to the entity
           content_tag :li, list_opts do
@@ -97,9 +99,9 @@ module Rooftop
             if opts[:current].present? && (opts[:current].ancestors.collect(&:id).include?(entity.id) || opts[:current].id == entity.id)
               children = entity.class.where(post_parent: entity.id)
               if children.any?
-                child_links = content_tag :ul do
+                child_links = content_tag :ul, class: "subnavigation-level-#{opts[:level]}" do
                   items = children.collect do |child|
-                    subnavigation_item_for(child, opts)
+                    subnavigation_item_for(child, opts.merge({level: opts[:level] + 1}))
                   end
                   items.join.html_safe
                 end
