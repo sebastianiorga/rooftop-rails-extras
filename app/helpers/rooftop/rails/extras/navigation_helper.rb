@@ -57,6 +57,29 @@ module Rooftop
           end
         end
 
+        def breadcrumbs_for(entity, opts = {})
+          default_opts = {
+            class: 'breadcrumbs',
+            current_class: 'is-current'
+          }.merge(opts)
+          content_tag :ul, class: default_opts[:class] do
+            items = entity.ancestors.reverse.inject({}) do |links,ancestor|
+              links[(links.present? ?  "#{links.keys.last}/#{ancestor.slug}" : ancestor.slug)] = ancestor
+              links
+            end
+            items.merge!({"#{items.keys.last}/#{entity.slug}" => entity})
+            links = items.collect do |path, item|
+              item_class = (item.id == entity.id ? default_opts[:current_class] : "")
+              content_tag :li, class: item_class do
+                content_tag :a, href: "/#{path}" do
+                  item.title
+                end
+              end
+            end
+            links.join.html_safe
+          end
+        end
+
         private
         def subnavigation_item_for(entity, opts = {})
           list_opts = {}
