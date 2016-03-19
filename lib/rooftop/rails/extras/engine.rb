@@ -19,11 +19,15 @@ module Rooftop
 
        config.to_prepare do
           ::Rails.application.eager_load!
-          Rooftop::Page.page_classes.each do |klass|
-            klass.send(:include, Rooftop::Rails::Extras::PageRedirect)
+          if Rooftop::Page.page_classes.present?
+            Rooftop::Page.page_classes.each do |klass|
+              klass.send(:include, Rooftop::Rails::Extras::PageRedirect)
+            end
           end
-          Rooftop::Nested.nested_classes.each do |klass|
-            klass.send(:include, Rooftop::Rails::Extras::ResolvedChildren)
+          if Rooftop::Nested.nested_classes.present?
+            Rooftop::Nested.nested_classes.each do |klass|
+              klass.send(:include, Rooftop::Rails::Extras::ResolvedChildren)
+            end
           end
         end
 
