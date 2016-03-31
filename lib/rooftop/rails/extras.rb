@@ -1,5 +1,6 @@
 require 'rooftop'
-# require 'rooftop-rails'
+require 'rooftop/rails'
+require 'mail_form'
 
 require 'require_all'
 require_rel '.'
