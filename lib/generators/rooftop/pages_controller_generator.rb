@@ -3,10 +3,6 @@ module Rooftop
       source_root File.expand_path("../templates", __FILE__)
       desc "Generate a standardised PagesController and views. Assumes a PageDecorator and Page model"
 
-      def create_page_class
-        generate 'rooftop:page'
-      end
-
       def copy_template
         template "pages_controller.rb.erb", "app/controllers/pages_controller.rb"
       end
@@ -18,11 +14,14 @@ module Rooftop
       end
 
       def add_route
+        comment_lines 'config/routes.rb', /pages#.*/
+        route 'root to: "pages#index"'
         route 'match "/*nested_path", via: [:get], to: "pages#show", as: :page'
         inject_into_file 'config/routes.rb', before: 'match "/*nested_path"' do <<-'RUBY'
         # IMPORTANT: this is a greedy catchall route - it needs to be the last route in the file.
         RUBY
         end
       end
+
     end
 end
