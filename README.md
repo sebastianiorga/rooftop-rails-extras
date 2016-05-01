@@ -111,3 +111,52 @@ How you build the form is up to you, but here's a quick way to use the fields yo
 
 * `errors[]` - an array of each fieldname with errors (in our example above, we check for this and add a classname on the offending inputs
 * params for each entered field, so you can set the field values to save data re-entry
+
+## Navigation View Helpers
+For nested post types (pages, products etc.) you might well want to create subnavigation, showing the path to this page, its siblings and parent pages. We use this often enough at [Error Agency](http://error.agency) to have a helper do the iteration.
+
+We also generally use WordPress menus in Rooftop for the main navigation on a site, and also footer links.
+
+### `subnavigation_for()` helper
+Given a page, this helper will return a nested unordered list of links, starting at the root of the page, and rendering the page, it's parents and their siblings, and its ancestors above parents.
+
+Here's a call to the helper in a view, with the default options shown:
+
+```
+<%# @page is defined in your controller as a call to Page.find() %>
+<%= subnavigation_for(@page, class: 'subnavigation-list', current_class: 'is-current', current: nil) %>
+```
+
+If you want to specify different class names for the UL and currently-active page, just amend the options.
+
+If you want to highlight *another page* when the subnav is rendered, that's fine too:
+
+```
+<%= subnavigation_for(@page, current: @another_page) %>
+```
+
+You might want to do this if, for example, your markup requires some navigational components in 2 different places.
+
+### `menu_for()` helper
+Given a `Rooftop::Menus::Menu` object, `menu_for()` will return a nested unordered list.
+
+```
+<%# @menu is defined in your controller as a call to Rooftop::Menus::Menu.find()
+<%= menu_for(@menu, current_class: 'is-current') %>
+```
+
+A utility `menu-level-[x]` class is added to each level of the nested menu, in case you want to target a particular level in a different way with css. Useful for dropdown menus.
+
+### `breadcrumbs_for()` helper
+Breadcrumbs are similar to a nested subnavigation, but they only represent a direct path to this page (or other nested post type).
+
+```
+<%# @page is defined in your controller as a call to Page.find() %>
+<%= breadcrumbs_for(@page, class: 'breadcrumbs', current_class: 'is-current') %>
+```
+
+# Licence
+This gem is licenced GPLv3; contributions are most welcome!
+
+# Contributing
+The usual: fork, change, PR. Clean PRs (rebased if necessary) are preferred, but anything you can do is valuable.
