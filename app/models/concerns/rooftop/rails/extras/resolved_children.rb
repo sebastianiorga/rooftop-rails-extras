@@ -8,7 +8,7 @@ module Rooftop
           child_ids = children.collect(&:id)
 
           if child_ids.any?
-            self.class.where(post__in: child_ids)
+            self.class.where(post__in: child_ids, orderby: :post__in)
           else
             []
           end
