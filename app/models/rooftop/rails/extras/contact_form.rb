@@ -12,24 +12,16 @@ module Rooftop
           message: :text_area
         }
 
-        def self.inherited(base)
-          (base.fields || DEFAULT_FIELDS).keys.each do |field|
-            base.send(:attribute,field, {validate: true})
+        def self.setup!
+          (self.fields || DEFAULT_FIELDS).keys.each do |field|
+            self.send(:attribute,field, {validate: true})
           end
 
-          base.subject ||= "Contact form message"
-          base.to ||= "change.me@#{base.to_s.underscore}"
-          base.from ||= "change.me@#{base.to_s.underscore}"
-          base.headers ||= {}
+          self.subject ||= "Contact form message"
+          self.to ||= "change.me@#{self.to_s.underscore}"
+          self.from ||= "change.me@#{self.to_s.underscore}"
+          self.headers ||= {}
         end
-        #
-        # attribute :salutation
-        # attribute :first_name,      validate: true
-        # attribute :last_name,     validate: true
-        # attribute :email, validate: true
-        # attribute :phone
-        # attribute :message, validate: true
-        # attribute :nickname,  captcha: true
 
         # Declare the e-mail headers. It accepts anything the mail method
         # in ActionMailer accepts.

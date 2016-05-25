@@ -49,6 +49,7 @@ class ContactForm < Rooftop::Rails::Extras::ContactForm #you can call your class
     }
     self.to = "the email you want to send the contact messages to"
     self.from = "the email from which you want to send the messages"
+    self.setup! #you need to call setup! here because there's no elegant way to call it automatically in the parent class.
 end
 ```
 
