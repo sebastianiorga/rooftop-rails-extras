@@ -38,7 +38,11 @@ module Rooftop
 
         private
         def contact_form_params
-          params.require(self.class.contact_form.to_s.underscore.to_sym).permit(self.class.contact_form.fields.keys)
+          # Sometimes we might want to pass params into this which are arrays from e.g. checkboxes. So we allow the keys from the form as syms and also as hashes
+          permitted_keys = [self.class.contact_form.fields.keys, self.class.contact_form.fields.keys.inject({}) {|h,k| h[k] = []; h }]
+          self.class.contact_form.fields.keys
+          params.require(self.class.contact_form.to_s.underscore.to_sym).permit(*permitted_keys)
+
         end
       end
     end
