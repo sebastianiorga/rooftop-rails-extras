@@ -30,6 +30,12 @@ class SomePostType
 end
 ```
 
+Then doing a search is as simple as:
+
+```
+   SomePostType.search("your string") #will return a collection of matching objects.
+```
+
 ## Contact form handling
 Almost every website we build needs a simple mail handler. Extending the [mail_form gem](https://github.com/plataformatec/mail_form), we've added a way to handle these with minimal fuss. Some assumptions are made in the name of expedience; if you need more than this, you probably need to use `mail_form` directly.
 
