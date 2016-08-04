@@ -10,10 +10,11 @@ module Rooftop
           }.merge(opts)
           raise ArgumentError, "#{entity.class} isn't a nested class" unless entity.respond_to?(:resolved_children)
           raise ArgumentError, "You passed a current #{entity.class.to_s.downcase} which isn't a #{entity.class} object" unless (default_opts[:current].nil? || default_opts[:current].is_a?(entity.class))
-          if entity.resolved_children.any?
+          resolved_children = entity.resolved_children
+          if resolved_children.any?
             # byebug
             content_tag(:ul, class: default_opts[:class]) do
-              items = entity.resolved_children.collect do |child|
+              items = resolved_children.collect do |child|
                 subnavigation_item_for(child, default_opts)
               end
               items.join.html_safe
