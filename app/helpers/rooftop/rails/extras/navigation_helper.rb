@@ -98,7 +98,7 @@ module Rooftop
 
             # Nested ul for children if necessary
             if opts[:current].present? && (opts[:current].ancestors.collect(&:id).include?(entity.id) || opts[:current].id == entity.id)
-              children = entity.class.where(post_parent: entity.id)
+              children = entity.class.where(post_parent: entity.id, orderby: :menu_order)
               if children.any?
                 child_links = content_tag :ul, class: "subnavigation-level-#{opts[:level]}" do
                   items = children.collect do |child|
