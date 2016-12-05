@@ -12,6 +12,7 @@ module Rooftop
           raise ArgumentError, "You passed a current #{entity.class.to_s.downcase} which isn't a #{entity.class} object" unless (default_opts[:current].nil? || default_opts[:current].is_a?(entity.class))
           resolved_children = entity.resolved_children
           if resolved_children.any?
+            # byebug
             content_tag(:ul, class: default_opts[:class]) do
               items = resolved_children.collect do |child|
                 subnavigation_item_for(child, default_opts)
@@ -41,10 +42,6 @@ module Rooftop
           }.merge(opts)
           item_path = path_for_menu_item(item)
           item_class = path_matches?(item_path) ? default_opts[:current_class] : ""
-          # add the status into the item class
-          if item.respond_to?(:status)
-            item_class += " status-#{item.status}"
-          end
           content_tag :li, class: item_class do
             link = content_tag :a, href: item_path do
               item.title.html_safe
@@ -90,10 +87,6 @@ module Rooftop
           list_opts = {}
           opts.reverse_merge!({level: 1})
           list_opts[:class] = opts[:current_class] if opts[:current].present? && opts[:current].id == entity.id
-          # add the status if the item as a class
-          if entity.respond_to?(:status)
-            list_opts[:class] += " status-#{entity.status}"
-          end
           # The link to the entity
           content_tag :li, list_opts do
 
