@@ -108,6 +108,8 @@ How you build the form is up to you, but here's a quick way to use the fields yo
     <!-- these hidden tags tell the controller how to redirect the user. If there's an error, we'll redirect back to this page, with get params for the errors and each completed field. If there isn't, the user is redirected to the thankyou page -->
     <%= hidden_field_tag :from_page, page.id %>
     <%= hidden_field_tag :to_page, page.thankyou_page_id %>
+    <!-- This tag can be included if you want, it's a honeypot so make sure you leave it empty -->
+    <%= text_field_tag :human_check, "", class: "somethinghidden" %>
 
     <p><input type="submit" id="submit" value="Send" /></p>
 <% end %>
