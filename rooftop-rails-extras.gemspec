@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["ed@errorstudio.co.uk"]
   spec.summary       = %q{A selection of handy mixins for building Rails sites quickly with Rooftop}
   spec.description   = %q{A selection of handy mixins for building Rails sites quickly with Rooftop}
-  spec.homepage      = ""
-  spec.license       = "GPLv3"
+  spec.homepage      = "https://github.org/rooftopcms/rooftop-rails-extras"
+  spec.license       = "GPL-3.0"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'require_all', '~> 1.3'
   spec.add_dependency 'rooftop-rails', '~>0.1.0'
-  spec.add_dependency 'mail_form', '~> 1.5'
+  spec.add_dependency 'mail_form', '~> 1.6'
 
 
 end
