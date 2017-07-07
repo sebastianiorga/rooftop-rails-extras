@@ -14,6 +14,10 @@ module Rooftop
       generate "rooftop:template content_page"
     end
 
+    def create_homepage_template
+      generate "rooftop:template homepage"
+    end
+
     def create_post_class
       generate 'rooftop:post post'
     end
