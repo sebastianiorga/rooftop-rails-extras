@@ -28,10 +28,7 @@ module Rooftop
           raise ArgumentError, "You need to call contact_form=(YourClass) in your controller, which must inherit from Rooftop::Rails::Extras::ContactForm" unless self.class.contact_form.ancestors.include?(Rooftop::Rails::Extras::ContactForm)
           raise ArgumentError, "You need to include hidden fields for from_page and to_page IDs, so this controller can redirect appropriately" unless params.has_key?(:from_page) && params.has_key?(:to_page)
           form = self.class.contact_form.new(contact_form_params)
-          if params.has_key?(:human_check) && params[:human_check].present?
-            # the honeypot has been hit - raise an error
-            raise ActionController::RoutingError, "you posted a human_check parameter, which is never supposed to be filled in (it's a honeypot)"
-          end
+          
           from_page, to_page = *self.class.page_class.where(post__in: [params[:from_page], params[:to_page]], orderby: :post__in)
           if form.deliver
             redirect_to Rooftop::Rails::RouteResolver.new(:page, to_page.nested_path).resolve
