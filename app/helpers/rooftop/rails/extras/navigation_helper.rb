@@ -12,10 +12,9 @@ module Rooftop
           raise ArgumentError, "You passed a current #{entity.class.to_s.downcase} which isn't a #{entity.class} object" unless (default_opts[:current].nil? || default_opts[:current].is_a?(entity.class))
           resolved_children = entity.resolved_children
           if resolved_children.any?
-            # byebug
             content_tag(:ul, class: default_opts[:class]) do
               items = resolved_children.collect do |child|
-                subnavigation_item_for(child, default_opts)
+                 subnavigation_item_for(child, default_opts)
               end
               items.join.html_safe
             end
@@ -98,7 +97,7 @@ module Rooftop
 
             # Nested ul for children if necessary
             if opts[:current].present? && (opts[:current].ancestors.collect(&:id).include?(entity.id) || opts[:current].id == entity.id)
-              children = entity.class.where(post_parent: entity.id, orderby: :menu_order, order: :asc)
+              children = entity.class.where(post_parent__in: entity.id, orderby: :menu_order, order: :asc)
               if children.any?
                 child_links = content_tag :ul, class: "subnavigation-level-#{opts[:level]}" do
                   items = children.collect do |child|
